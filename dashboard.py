@@ -18,3 +18,10 @@ def load_data():
 app = dash.Dash(__name__)
 app.title = "Gold Live Dashboard"
 
+app.layout = html.Div(
+    html.H1("Prix Gold - Live Scraping"),
+    dcc.Graph(id="price-graph"),
+    dcc.Interval(
+        id="interval-component",
+        interval=5*1000,  # 5 minutes
+        n_intervals=0))
