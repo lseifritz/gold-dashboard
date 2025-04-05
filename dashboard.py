@@ -4,7 +4,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 
-# Charger les données
+# Load the data
 def load_data():
     try:
         df = pd.read_csv("data.csv", names=["Date", "Price"])
@@ -14,7 +14,7 @@ def load_data():
     except:
         return pd.DataFrame(columns=["Date", "Price"])
 
-# Créer l'application Dash
+# Create the Dash application
 app = dash.Dash(__name__)
 app.title = "Gold Live Dashboard"
 
@@ -23,10 +23,20 @@ app.layout = html.Div([
     dcc.Graph(id="price-graph"),
     dcc.Interval(
         id="interval-component",
-        interval=5*1000,  # 5 minutes
-        n_intervals=0)])
+        interval=5*1000,  # updates every 5 minutes
+        n_intervals=0
+    ),
+    html.H2("Rapport quotidien"),  # generate the report
+    html.Pre(id="daily-report", style={"whiteSpace": "pre-wrap", "fontFamily": "monospace"}),
 
-# Mise à jour du graph
+    dcc.Interval(
+        id="report-update",
+        interval=10*60*1000,  # Update every 10 minutes
+        n_intervals=0
+    )
+])
+
+# Update the plot
 @app.callback(
     Output("price-graph", "figure"),
     Input("interval-component", "n_intervals")
