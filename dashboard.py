@@ -26,7 +26,7 @@ app.layout = html.Div([
         interval=5*1000,  # updates every 5 minutes
         n_intervals=0
     ),
-    html.H2("Rapport quotidien"),  # generate the report
+    html.H2("Daily report"),  # generate the report
     html.Pre(id="daily-report", style={"whiteSpace": "pre-wrap", "fontFamily": "monospace"}),
 
     dcc.Interval(
@@ -45,8 +45,22 @@ def update_graph(n):
     df = load_data()
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=df["Date"], y=df["Price"], mode="lines+markers"))
-    fig.update_layout(title="Prix en temps réel", xaxis_title="Date", yaxis_title="Prix")
+    fig.update_layout(title="Live Price", xaxis_title="Date", yaxis_title="Price")
     return fig
+
+@app.callback(
+    Output("daily-report", "children"),
+    Input("report-update", "n_intervals")
+)
+def update_daily_report(n):
+    return read_daily_report()
+
+def read_daily_report():
+    try:
+        with open("report.txt", "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Report unavailable."
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8050, debug=True)
