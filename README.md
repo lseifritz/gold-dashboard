@@ -21,9 +21,11 @@ A real-time dashboard that tracks the price of gold, featuring technical indicat
 ---
 
 ## Project Structure
+<pre>
 .
 ├── data.csv          # Scraped gold price data
 ├── report.txt        # Auto-generated daily report
 ├── scrapper.sh       # Bash script that scrapes gold price
 ├── rapport.py        # Generates the daily report from data.csv
-└── dashboard.py      # Main Dash application
+└── dashboard.py      # Main Dash application 
+</pre>
