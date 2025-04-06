@@ -18,10 +18,15 @@ if not df_today.empty:
     open_price = df_today["Price"].iloc[0]
     close_price = df_today["Price"].iloc[-1]
     volatility = df_today["Price"].std()
+    max_price = df_today["Price"].max()
+    min_price = df_today["Price"].min()
+
 
     report = f"""Report of {last_date} :
 - Open : {open_price}
 - Close : {close_price}
+- Min : {min_price}
+- Max : {max_price}
 - Volatility : {volatility:.2f}
 """
 
